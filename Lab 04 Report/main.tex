@@ -3,7 +3,7 @@
 % Template created by Yiqi Liang and Professor Matthew Nelson
 
 % Document Configuration DO NOT CHANGE
-\documentclass[12 pt]{article}
+\documentclass[12 pt]{report}
 % --------------------LaTeX Packages---------------------------------
 % The following are packages that are used in this report.
 % DO NOT CHANGE ANY OF THE FOLLOWING OR YOUR REPORT WILL NOT COMPILE
@@ -29,7 +29,7 @@
 	urlcolor=cyan,
 }
 \usepackage{biblatex}
-\addbibresource{lab-report-bib.bib}
+\addbibresource{main.bib}
 \usepackage{amsmath}
 \usepackage{listings}
 \usepackage{multicol}
@@ -130,10 +130,21 @@
 % Define the headers and footers
 \setlength{\headheight}{70.63135pt}
 \geometry{head=70.63135pt, includehead=true, includefoot=true}
+\fancypagestyle{plain}{
+	\fancyhead{}\fancyfoot{} % clears the headers/footers
+	\fancyhead[L]{\textbf{AER E 322}}
+	\fancyhead[C]{\textbf{Aerospace Structures Laboratory Report}\\
+					 \textbf{Lab <lab number> <lab name>}\\
+					 Section 4 Group 2\\
+					 Matthew Mehrtens, Peter Mikolitis, and Natsuki Oda\\
+					 \today}
+	\fancyhead[R]{\textbf{Spring 2023}}
+	\fancyfoot[C]{\thepage}
+}
 \pagestyle{fancy}
 \fancyhead{}\fancyfoot{} % clears the headers/footers
 \fancyhead[L]{\textbf{AER E 322}}
-\fancyhead[C]{\textbf{Aerospace Structures Laboratory Summary}\\
+\fancyhead[C]{\textbf{Aerospace Structures Laboratory Report}\\
 			  \textbf{Lab <lab number> <lab name>}\\
 			  Section 4 Group 2\\
 			  Matthew Mehrtens, Peter Mikolitis, and Natsuki Oda\\
@@ -144,6 +155,8 @@
 \begin{document}
 \maketitle
 \tableofcontents
+
+\chapter{Pre-Lab} \label{pre-lab}
 \section{Introduction} \label{introduction}
 % TODO
 
@@ -151,6 +164,14 @@
 % TODO
 
 \section{Hypothesis} \label{hypothesis}
+% TODO
+
+\chapter{Lab Work} \label{lab_work}
+\section{Variables} \label{variables}
+\subsection{Independent Variables} \label{variables-independent_variables}
+% TODO
+
+\subsection{Dependent Variables} \label{variables-dependent_variables}
 % TODO
 
 \section{Work Assignments} \label{work_assignments}
@@ -183,6 +204,8 @@ Refer to Table \ref{table:work_assignments} for the distribution of work during 
 		\hline
 		Hypothesis & & & \\
 		\hline
+		Variables & & & \\
+		\hline
 		Materials & & & \\
 		\hline
 		Apparatus & & & \\
@@ -194,6 +217,10 @@ Refer to Table \ref{table:work_assignments} for the distribution of work during 
 		Analysis & & & \\
 		\hline
 		Conclusion & & & \\
+		\hline
+		References & & & \\
+		\hline
+		Appendix & & & \\
 		\hline
 		Revisions & & & \\
 		\hline
@@ -211,15 +238,22 @@ Refer to Table \ref{table:work_assignments} for the distribution of work during 
 % TODO
 
 \section{Procedures} \label{procedures}
+\subsection{Setup} \label{procedures-setup}
+% TODO
+
+\subsection{Cleanup} \label{procedures-cleanup}
 % TODO
 
 \section{Data} \label{data}
 % TODO
 
+\chapter{Conclusion} \label{conclusion-chapter}
 \section{Analysis} \label{analysis}
 % TODO
 
-\section{Conclusion} \label{conclusion}
+\section{Conclusion} \label{conclusion-section}
 % TODO
 
+\printbibliography[heading=subbibintoc]
+\appendix
 \end{document}
