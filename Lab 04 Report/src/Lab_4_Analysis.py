@@ -25,19 +25,24 @@ E_actual        = 73.1 * ureg.GPa   # [GPa]
 calibration_data = pd.read_excel("Lab 4 Calibration Data.xlsx", 
                                  sheet_name="Sheet1")
 
-calibration_load = calibration_data["load (lbf)"].to_numpy() * ureg.lbf # [lbf]
+calibration_load = (calibration_data["load (lbf)"].to_numpy()
+                    * ureg.lbf) # [lbf]
 calibration_extension = (calibration_data["extension (mm)"].to_numpy()
                         * ureg.mm) # [mm]
 
-# Import tensile test data
+# Import tensile test data (Instron)
 tensile_test_data_instron = pd.read_csv("Lab 4 Tensile Data Instron.csv")
-tensile_test_data_yellow_box = pd.read_csv("Lab 4 Tensile Data Yellow Box.csv")
 
 time = (tensile_test_data_instron["Time (s)"].to_numpy() * ureg.s) # [s]
 tensile_load = (tensile_test_data_instron["Load (lbf)"].to_numpy()
                 * ureg.lbf) # [lbf]
-tensile_extension = (tensile_test_data_instron["Extension (in)"].to_numpy()
-                     * ureg.inch) # [in]
+tensile_extension = (
+    tensile_test_data_instron["Extension (in)"].to_numpy()
+    * ureg.inch) # [in]
+
+# Import tensile test data (Yellow Box)
+tensile_test_data_yellow_box = pd.read_csv(
+    "Lab 4 Tensile Data Yellow Box.csv")
 
 tensile_strain_yb = (
     tensile_test_data_yellow_box["strain (microstrain)"].to_numpy() * 1000
@@ -46,22 +51,24 @@ tensile_strain_yb = (
 # Import bending test data
 bending_test_data = pd.read_csv("Lab 4 Bending Data.csv")
 
-bending_strain = (bending_test_data["epsilon (microstrain)"].to_numpy() * 1e-6
-                * ureg.dimensionless) # []
+bending_strain = (bending_test_data["epsilon (microstrain)"].to_numpy()
+                  * 1e-6
+                  * ureg.dimensionless) # []
 
 # ################
 # # PROCESS DATA #
 # ################
 
 # Create line of best fit for calibration data
-a1,b1 = np.polyfit(calibration_load.magnitude, calibration_extension.magnitude,
-                   1)
+a1,b1 = np.polyfit(calibration_load.magnitude,
+                   calibration_extension.magnitude, 1)
 a1 *= ureg.mm / ureg.lbf # [mm/lbf]
 b1 *= ureg.mm # [mm]
 
 # Correct the tensile test data from the instron
-corrected_tensile_extension = (tensile_extension -
-                               (a1 * tensile_load + b1)).to(ureg.inch) # [in]
+corrected_tensile_extension = (
+    tensile_extension
+    - (a1 * tensile_load + b1)).to(ureg.inch) # [in]
 
 # Calculate strain from the tensile test data from the instron
 tensile_strain_instron = (corrected_tensile_extension / gage_length).to(
@@ -71,16 +78,16 @@ tensile_strain_instron = (corrected_tensile_extension / gage_length).to(
 tensile_stress = (tensile_load / (b * h)).to(ureg.psi) # [psi]
 
 # Create line of best fit for stress-strain curve from the Instron
-a2,b2 = np.polyfit(tensile_strain_instron.magnitude, tensile_stress.magnitude,
-                   1)
+a2,b2 = np.polyfit(tensile_strain_instron.magnitude,
+                   tensile_stress.magnitude, 1)
 a2 *= ureg.psi / ureg.dimensionless # [psi/]
 b2 *= ureg.psi # [psi]
 
 # Smooth the tensile strain data from the yellow box
 window = 15
 smoothed_tensile_strain_yb = (
-    np.convolve(tensile_strain_yb.magnitude, np.ones(window), "valid") / window
-    * ureg.dimensionless) # []
+    np.convolve(tensile_strain_yb.magnitude, np.ones(window), "valid")
+    / window * ureg.dimensionless) # []
 
 # Get the time domain for the yellow box strain
 time_yb = np.arange(time[0].magnitude, time[-1].magnitude,
@@ -157,8 +164,8 @@ plt.title("Strain vs Time")
 
 # Plot the stress-strain curve from the yellow box
 plt.figure()
-plt.plot(smoothed_tensile_strain_yb.magnitude, tensile_stress_yb.magnitude,
-         label="Tensile Test Data")
+plt.plot(smoothed_tensile_strain_yb.magnitude,
+         tensile_stress_yb.magnitude, label="Tensile Test Data")
 plt.plot(smoothed_tensile_strain_yb.magnitude,
          (a4 * smoothed_tensile_strain_yb + b4).to(ureg.psi).magnitude,
          label="Line of Best Fit")
